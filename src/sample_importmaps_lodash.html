@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <script type="importmap">
+  {
+    "imports": {
+      "lodash": "https://cdn.jsdelivr.net/npm/lodash-es@4.17.21/lodash.min.js",
+      "@" : "./sample-alert.js"
+    }
+  }
+  </script>
+
+  <script type="module">
+    import * as _ from 'lodash';
+    import {sayMessage} from '@';
+
+    const a = {'a': 1};
+    const b = {'a': 3, 'b': 2};
+    const c = _.defaults(a, b);
+
+    sayMessage(JSON.stringify(c));// {a: 1, b: 2}
+  </script>
+</head>
+</html>

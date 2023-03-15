@@ -1,3 +1,3 @@
 export function sayMessage(message) {
-  alert(message);
+  console.log(message);
 }

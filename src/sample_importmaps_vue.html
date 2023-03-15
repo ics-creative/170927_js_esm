@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=640"/>
+  <title>料金計算 | チョイ足しVue.jsでサクッと動的要素</title>
+</head>
+<body>
+<div class="contents">
+  <h1>入場料</h1>
+  <p>大人：1400円、子ども：800円</p>
+  <div id="app">
+    <div class="priceTable">
+      <p>
+        <label
+        ><span class="priceTable_label">大人</span
+        ><input type="number" v-model="adult" min="0"/>人</label
+        >
+      </p>
+      <p>
+        <label
+        ><span class="priceTable_label">子ども</span
+        ><input type="number" v-model="children" min="0"/>人</label
+        >
+      </p>
+      <p class="priceTable_sum">合計：{{entryFee}}円</p>
+    </div>
+  </div>
+</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "vue": "https://unpkg.com/vue@3.2.27/dist/vue.esm-browser.prod.js"
+  }
+}
+</script>
+</script>
+<script type="module">
+  import {
+    ref,
+    computed,
+    createApp,
+  } from "vue";
+
+  const app = createApp({
+    setup() {
+      // 入場料の定数
+      const ADULT_FEE = 1400;
+      const CHILD_FEE = 800;
+      // 入力した人数です
+      const adult = ref(0);
+      const children = ref(0);
+
+      // ボタンが押せるかどうか
+      const entryFee = computed(
+        () => ADULT_FEE * adult.value + CHILD_FEE * children.value
+      );
+      return {adult, children, entryFee};
+    },
+  });
+  app.mount("#app");
+</script>
+</body>
+</html>
