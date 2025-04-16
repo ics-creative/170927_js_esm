@@ -1,0 +1,25 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "山田 太郎",
+      "email": "taro.yamada@example.com",
+      "age": 30,
+      "isActive": true
+    },
+    {
+      "id": 2,
+      "name": "鈴木 花子",
+      "email": "hanako.suzuki@example.com",
+      "age": 25,
+      "isActive": false
+    },
+    {
+      "id": 3,
+      "name": "佐藤 次郎",
+      "email": "jiro.sato@example.com",
+      "age": 40,
+      "isActive": true
+    }
+  ]
+}
