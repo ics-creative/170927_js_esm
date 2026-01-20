@@ -3,8 +3,6 @@
 <head>
   <meta charset="UTF-8"/>
   <title>jQuery デモ</title>
-
-
   <style>
     body {
       font-family: sans-serif;
@@ -16,16 +14,21 @@
 
     .container {
       background: white;
-      padding: 30px;
+      padding: 32px;
       border-radius: 8px;
       box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
     }
 
     section {
-      margin: 30px 0;
       padding: 20px;
       background: #fafafa;
-      border-radius: 5px;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
 
     button {
@@ -33,20 +36,38 @@
       color: white;
       border: none;
       padding: 8px 16px;
-      margin: 4px;
       border-radius: 4px;
       cursor: pointer;
+      width: fit-content;
+    }
+
+    #slideToggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+
+      .arrow {
+        display: inline-block;
+        transition: transform 0.3s ease;
+      }
+
+      .label {
+        display: inline-block;
+        min-width: 3.5em;
+      }
+
+      &.open .arrow {
+        transform: rotate(180deg);
+      }
     }
 
     .slide-box {
       background: #eee;
       padding: 20px;
-      margin-top: 10px;
       text-align: center;
     }
 
     .input-group {
-      margin-bottom: 15px;
       display: flex;
       gap: 8px;
     }
@@ -56,15 +77,19 @@
       padding: 8px;
       border: 1px solid #ddd;
       border-radius: 4px;
+    }
 
+    #itemList {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
     .list-item {
-      padding: 10px;
-      margin: 5px 0;
+      padding: 8px;
       background: white;
       border-left: 4px solid #3223b3;
-      border-radius: 3px;
+      border-radius: 4px;
       cursor: pointer;
 
       &.completed {
@@ -85,14 +110,24 @@
   <script type="module">
     import $ from "jquery";
 
-    $("#slideToggle").on("click", () => {
+    $("#slideToggle").on("click", function() {
       $(".slide-box").slideToggle(600);
+      $(this).toggleClass("open");
+      
+      // ボタンテキストの切り替え
+      const isOpen = $(this).hasClass("open");
+      $(this).find(".label").text(isOpen ? "とじる" : "ひらく");
     });
 
     $("#addItem").on("click", () => {
       const text = $("#newItemInput").val();
       if (text.trim()) {
-        $("<div>").addClass("list-item").text(text).hide().fadeIn(400).appendTo("#itemList");
+        $("<div>")
+          .addClass("list-item")
+          .text(text)
+          .hide()
+          .appendTo("#itemList")
+          .slideDown(300);
         $("#newItemInput").val("");
       }
     });
@@ -102,13 +137,13 @@
     });
 
     $(document).on("dblclick", ".list-item", function () {
-      $(this).fadeOut(400, function () {
+      $(this).slideUp(300, function () {
         $(this).remove();
       });
     });
 
     $("#clearList").on("click", () => {
-      $(".list-item").fadeOut(400, function () {
+      $(".list-item").slideUp(300, function () {
         $(this).remove();
       });
     });
@@ -117,13 +152,13 @@
       $(this)
         .text("実行中...")
         .css("background", "#e67e22")
-        .animate({padding: "15px 30px"}, 300)
+        .animate({padding: "16px 32px"}, 300)
         .delay(500)
         .queue(function (next) {
           $(this).text("完了！");
           next();
         })
-        .animate({padding: "10px 20px"}, 300)
+        .animate({padding: "8px 16px"}, 300)
         .delay(500)
         .queue(function (next) {
           $(this).text("メソッドチェーンのデモ").css("background", "");
@@ -138,7 +173,10 @@
 
   <section>
     <h2>スライドアニメーション</h2>
-    <button id="slideToggle">スライドトグル</button>
+    <button id="slideToggle" class="open">
+      <span class="arrow">▼</span>
+      <span class="label">とじる</span>
+    </button>
     <div class="slide-box">アニメーション対象エリア<br/>
       あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波。
     </div>
