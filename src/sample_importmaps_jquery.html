@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <title>jQuery デモ</title>
+
+
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+    }
+
+    section {
+      margin: 30px 0;
+      padding: 20px;
+      background: #fafafa;
+      border-radius: 5px;
+    }
+
+    button {
+      background: #3223b3;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      margin: 4px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .slide-box {
+      background: #eee;
+      padding: 20px;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .input-group {
+      margin-bottom: 15px;
+      display: flex;
+      gap: 8px;
+    }
+
+    #newItemInput {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+
+    }
+
+    .list-item {
+      padding: 10px;
+      margin: 5px 0;
+      background: white;
+      border-left: 4px solid #3223b3;
+      border-radius: 3px;
+      cursor: pointer;
+
+      &.completed {
+        background: #d4edda;
+        border-left-color: #28a745;
+        text-decoration: line-through;
+        opacity: 0.7;
+      }
+    }
+  </style>
+  <script type="importmap">
+    {
+      "imports": {
+        "jquery": "https://cdn.jsdelivr.net/npm/jquery@4.0.0/+esm"
+      }
+    }
+  </script>
+  <script type="module">
+    import $ from "jquery";
+
+    $("#slideToggle").on("click", () => {
+      $(".slide-box").slideToggle(600);
+    });
+
+    $("#addItem").on("click", () => {
+      const text = $("#newItemInput").val();
+      if (text.trim()) {
+        $("<div>").addClass("list-item").text(text).hide().fadeIn(400).appendTo("#itemList");
+        $("#newItemInput").val("");
+      }
+    });
+
+    $(document).on("click", ".list-item", function () {
+      $(this).toggleClass("completed");
+    });
+
+    $(document).on("dblclick", ".list-item", function () {
+      $(this).fadeOut(400, function () {
+        $(this).remove();
+      });
+    });
+
+    $("#clearList").on("click", () => {
+      $(".list-item").fadeOut(400, function () {
+        $(this).remove();
+      });
+    });
+
+    $("#chainDemo").on("click", function () {
+      $(this)
+        .text("実行中...")
+        .css("background", "#e67e22")
+        .animate({padding: "15px 30px"}, 300)
+        .delay(500)
+        .queue(function (next) {
+          $(this).text("完了！");
+          next();
+        })
+        .animate({padding: "10px 20px"}, 300)
+        .delay(500)
+        .queue(function (next) {
+          $(this).text("メソッドチェーンのデモ").css("background", "");
+          next();
+        });
+    });
+  </script>
+</head>
+<body>
+<div class="container">
+  <h1>jQuery デモ</h1>
+
+  <section>
+    <h2>スライドアニメーション</h2>
+    <button id="slideToggle">スライドトグル</button>
+    <div class="slide-box">アニメーション対象エリア<br/>
+      あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波。
+    </div>
+  </section>
+
+  <section>
+    <h2>TODOリスト</h2>
+    <div class="input-group">
+      <input type="text" id="newItemInput" placeholder="新しいアイテムを入力...">
+      <button id="addItem">追加</button>
+    </div>
+    <div id="itemList">
+      <div class="list-item">クリックで完了マーク</div>
+      <div class="list-item">ダブルクリックで削除</div>
+    </div>
+    <div>
+      <button id="clearList">全てクリア</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>メソッドチェーン</h2>
+    <button id="chainDemo">メソッドチェーンのデモ</button>
+  </section>
+</div>
+</body>
+</html>
